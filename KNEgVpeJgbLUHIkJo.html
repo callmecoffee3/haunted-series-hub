@@ -1,0 +1,269 @@
+<html><head><base href="https://github.com/callmecoffee3/haunted-series-hub/"><title>Haunted Series Creative Hub</title><style>
+    :root {
+        --bg-color: #1a1a1a;
+        --text-color: #e0e0e0;
+        --accent-color: #7b1fa2;
+        --secondary-color: #4a148c;
+    }
+    body {
+        font-family: 'Arial', sans-serif;
+        background-color: var(--bg-color);
+        color: var(--text-color);
+        margin: 0;
+        padding: 0;
+        display: flex;
+        flex-direction: column;
+        min-height: 100vh;
+    }
+    header {
+        background-color: var(--secondary-color);
+        padding: 1rem;
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+    }
+    .logo {
+        font-size: 1.5rem;
+        font-weight: bold;
+        color: var(--text-color);
+        text-decoration: none;
+    }
+    .search-container {
+        display: flex;
+        align-items: center;
+    }
+    #search-input {
+        padding: 0.5rem;
+        border: none;
+        border-radius: 4px 0 0 4px;
+    }
+    #search-button {
+        background-color: var(--accent-color);
+        color: var(--text-color);
+        border: none;
+        padding: 0.5rem 1rem;
+        border-radius: 0 4px 4px 0;
+        cursor: pointer;
+    }
+    nav {
+        background-color: var(--secondary-color);
+        padding: 0.5rem;
+    }
+    nav ul {
+        list-style-type: none;
+        padding: 0;
+        margin: 0;
+        display: flex;
+        justify-content: center;
+    }
+    nav ul li {
+        margin: 0 1rem;
+    }
+    nav ul li a {
+        color: var(--text-color);
+        text-decoration: none;
+    }
+    main {
+        display: flex;
+        flex: 1;
+    }
+    .content {
+        flex: 3;
+        padding: 1rem;
+    }
+    .sidebar {
+        flex: 1;
+        background-color: #2a2a2a;
+        padding: 1rem;
+    }
+    .chatbot {
+        background-color: #2a2a2a;
+        border-radius: 8px;
+        padding: 1rem;
+        margin-top: 1rem;
+    }
+    #chat-messages {
+        height: 300px;
+        overflow-y: auto;
+        border: 1px solid var(--accent-color);
+        padding: 0.5rem;
+        margin-bottom: 0.5rem;
+    }
+    #chat-input {
+        width: 100%;
+        padding: 0.5rem;
+        border: 1px solid var(--accent-color);
+        border-radius: 4px;
+    }
+    footer {
+        background-color: var(--secondary-color);
+        padding: 1rem;
+        text-align: center;
+    }
+    .quick-access {
+        display: flex;
+        flex-wrap: wrap;
+        gap: 0.5rem;
+        margin-top: 1rem;
+    }
+    .quick-access button {
+        background-color: var(--accent-color);
+        color: var(--text-color);
+        border: none;
+        padding: 0.5rem 1rem;
+        border-radius: 4px;
+        cursor: pointer;
+    }
+    .hide-button {
+        background-color: var(--secondary-color);
+        color: var(--text-color);
+        border: none;
+        padding: 0.5rem 1rem;
+        border-radius: 4px;
+        cursor: pointer;
+        margin-top: 1rem;
+    }
+</style></head><body>
+    <header>
+        <a href="#" class="logo">Haunted Series Hub</a>
+        <div class="search-container">
+            <input type="text" id="search-input" placeholder="Search...">
+            <button id="search-button">Search</button>
+        </div>
+    </header>
+    <nav>
+        <ul>
+            <li><a href="#home">Home</a></li>
+            <li><a href="#story">Story</a></li>
+            <li><a href="#settings">Settings</a></li>
+            <li><a href="#help">Help</a></li>
+        </ul>
+    </nav>
+    <main>
+        <div class="content">
+            <h1>Welcome to the Haunted Series Creative Hub</h1>
+            <p>Explore the depths of your imagination and craft spine-chilling tales with our interactive storytelling tools.</p>
+            <div id="main-content">
+                <!-- Dynamic content will be loaded here -->
+            </div>
+        </div>
+        <div class="sidebar">
+            <h2>User Notes</h2>
+            <textarea id="user-notes" rows="5" cols="30"></textarea>
+            <button id="save-notes">Save Notes</button>
+            <button id="delete-notes">Delete Notes</button>
+            <div class="chatbot">
+                <h3>Story Assistant</h3>
+                <div id="chat-messages"></div>
+                <input type="text" id="chat-input" placeholder="Type your message...">
+            </div>
+        </div>
+    </main>
+    <footer>
+        <div class="quick-access" id="quick-access">
+            <!-- Quick access buttons will be dynamically added here -->
+        </div>
+        <button class="hide-button" id="toggle-quick-access">Hide Quick Access</button>
+    </footer>
+    <script>
+        // Initialize chat messages
+        let chatMessages = [
+            { role: 'assistant', content: 'Hi! How would you like this story to start?' },
+            { role: 'assistant', content: 'Choose an act to begin:' },
+            { role: 'assistant', content: '1. Act 1' },
+            { role: 'assistant', content: '2. Act 2' },
+            { role: 'assistant', content: '3. Act 3' },
+            { role: 'assistant', content: '4. Act 4' },
+            { role: 'assistant', content: 'Or type "character development" to start there!' }
+        ];
+
+        // Function to display chat messages
+        function displayChatMessages() {
+            const chatMessagesDiv = document.getElementById('chat-messages');
+            chatMessagesDiv.innerHTML = '';
+            chatMessages.forEach(message => {
+                const messageDiv = document.createElement('div');
+                messageDiv.textContent = `${message.role}: ${message.content}`;
+                chatMessagesDiv.appendChild(messageDiv);
+            });
+            chatMessagesDiv.scrollTop = chatMessagesDiv.scrollHeight;
+        }
+
+        // Display initial chat messages
+        displayChatMessages();
+
+        // Handle chat input
+        document.getElementById('chat-input').addEventListener('keypress', function(e) {
+            if (e.key === 'Enter') {
+                const userInput = this.value;
+                chatMessages.push({ role: 'user', content: userInput });
+                this.value = '';
+                
+                // Simple response based on user input
+                let response;
+                if (userInput.toLowerCase().includes('act')) {
+                    response = `Great! Let's start with ${userInput}. What's the setting for this act?`;
+                } else if (userInput.toLowerCase().includes('character')) {
+                    response = "Excellent choice! Let's develop a character. What's their name and main trait?";
+                } else {
+                    response = `Interesting idea! How would you like to expand on "${userInput}"?`;
+                }
+                
+                chatMessages.push({ role: 'assistant', content: response });
+                displayChatMessages();
+            }
+        });
+
+        // Handle notes
+        document.getElementById('save-notes').addEventListener('click', function() {
+            const notes = document.getElementById('user-notes').value;
+            localStorage.setItem('userNotes', notes);
+            alert('Notes saved!');
+        });
+
+        document.getElementById('delete-notes').addEventListener('click', function() {
+            document.getElementById('user-notes').value = '';
+            localStorage.removeItem('userNotes');
+            alert('Notes deleted!');
+        });
+
+        // Load saved notes if any
+        const savedNotes = localStorage.getItem('userNotes');
+        if (savedNotes) {
+            document.getElementById('user-notes').value = savedNotes;
+        }
+
+        // Quick access buttons
+        const quickAccessButtons = [
+            'Section', 'Chapter', 'Act', 'Page', 'Help', 'Shorts', 'Reels', 'Effects', 'Stories'
+        ];
+
+        const quickAccessContainer = document.getElementById('quick-access');
+        quickAccessButtons.forEach(button => {
+            const btn = document.createElement('button');
+            btn.textContent = button;
+            btn.addEventListener('click', () => {
+                alert(`You clicked ${button}. This feature is coming soon!`);
+            });
+            quickAccessContainer.appendChild(btn);
+        });
+
+        // Toggle quick access visibility
+        document.getElementById('toggle-quick-access').addEventListener('click', function() {
+            const quickAccess = document.getElementById('quick-access');
+            if (quickAccess.style.display === 'none') {
+                quickAccess.style.display = 'flex';
+                this.textContent = 'Hide Quick Access';
+            } else {
+                quickAccess.style.display = 'none';
+                this.textContent = 'Show Quick Access';
+            }
+        });
+
+        // Search functionality (basic implementation)
+        document.getElementById('search-button').addEventListener('click', function() {
+            const searchTerm = document.getElementById('search-input').value.toLowerCase();
+            alert(`Searching for: ${searchTerm}\nThis feature will be implemented soon!`);
+        });
+    </script>
+</body></html>
